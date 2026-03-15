@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href=""https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="css/normalize.css">
+
+	<title>FlashTTS</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		/* 所有音频按钮向右偏移 30px（仅视觉位移，不影响文字布局） */
+		table.table audio { transform: translateX(0px); }
+		/* Text 列：宽度限制，超出自动换行 */
+		table.table td:nth-child(3),
+		table.table th:nth-child(3) {
+			max-width: 280px;
+			word-wrap: break-word;
+			overflow-wrap: break-word;
+			word-break: break-word;
+		}
+		/* 播放按钮列与 Text 列之间的间距 */
+		table.table td:nth-child(2),
+		table.table th:nth-child(2) { padding-right: 20px; }
+		table.table td:nth-child(3),
+		table.table th:nth-child(3) { padding-left: 16px; padding-right: 16px; }
+		table.table td:nth-child(4),
+		table.table th:nth-child(4) { padding-left: 20px; }
+	</style>
+
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+
+<div class="container" >
+<header role="banner">
+</header>
+<main role="main">
+<article itemscope itemtype="https://schema.org/BlogPosting">
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+	<!-- Multilingual TTS Demo 测试 prompts 来自 MiniMax testset -->
+	<div class="text-center">
+	<h2>FlashTTS: </h2>
+      <h3>Fast Streaming TTS with MTP Acceleration and X-pred Mean Flow Distillation</h3>
+	</div>
+	<p><b>Abstract</b> Recent progress in speech dialogue systems requires Text-to-Speech (TTS) models to be faster and more responsive. Modern speech dialogue systems impose two primary requirements on TTS models: low latency and support for streaming inputs and outputs. However, most existing single-codebook LLM-based TTS methods rely on multi-stage pipelines that lack native streaming capabilities. These systems typically suffer from high end-to-end latency due to slow autoregressive prediction and multi-step flow matching. To address these limitations, we propose FlashTTS, an open-source and low-latency streaming TTS framework. FlashTTS introduces a lagged multi-track architecture that natively processes streaming text and speech inputs, thereby eliminating the need for sentence-level buffering. To accelerate acoustic generation, we integrate parallel Multi-Token Prediction (MTP) with an X-pred mean flow matching decoder. This configuration achieves high-fidelity token-to-mel generation in exactly two function evaluations (2-NFE). By jointly optimizing input processing and decoding efficiency, FlashTTS offers a practical foundation for real-time speech dialogue systems. Experiments show that FlashTTS substantially reduces First-Packet Latency to 325ms compared to robust streaming baselines, all while preserving strong zero-shot voice cloning and cross-lingual intelligibility. Speech samples are available. The model code and checkpoints will be released as open source.
+	</p>
+
+	<p><b>Contents</b></p>
+	<ul>
+		<li><a href="#Model-Overview">Model Overview</a></li>
+		<li><a href="#Multilingual-Demo">Multilingual TTS Demo</a></li>
+		<li><a href="#Celebrities-Characters">Celebrities Characters</a></li>
+	</ul>
+
+	<p><b>This page is for research demonstration purposes only.</b></p>
+
+	
+</div>
+
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">		
+	<h2 id="Model-Overview" style="text-align: center;">Model Overview</h2>
+	<body>
+	<p style="text-align: center;">
+		<img src="pic/flashtts_overview.jpg" alt="FlashTTS Overview" style="max-width: 85%; width: 765px; height: auto;">
+	</p>
+	</body>
+		<p style="text-align: center;" >
+			<b>Figure 1.</b> Architecture Overview of FlashTTS: (a) Stage 1 Training of the Stacked Inputs Track Structure. (b) Stage 2 MTP Training.
+		</p>
+</div>
+
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+	<h2 id="Multilingual-Demo" style="text-align: center;">Multilingual TTS Demo</h2>
+	<p class="small text-muted text-center mb-1">Chinese / English / French / German / Japanese / Korean · Prompt is the reference voice</p>
+	<p class="small text-muted text-center mb-3">All prompt texts in this demo are sampled from the MiniMax internal test set.</p>
+	<div class="table-responsive pt-2">
+		<table class="table table-hover pt-2">
+			<thead>
+				<tr>
+					<th style="vertical-align: middle; text-align: center; width: 5rem;">Language</th>
+					<th style="vertical-align: middle; text-align: center">Prompt</th>
+					<th style="vertical-align: middle; text-align: center">Text</th>
+					<th style="vertical-align: middle; text-align: center">Generation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr><td style="vertical-align: middle; text-align: center">Chinese</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/chinese_female.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">我只想和你一起，看遍这世界的美好。</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/chinese_female_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">Chinese</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/chinese_male.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">早上好，你今天看起来气色很好，是不是有什么好事发生了？</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/chinese_male_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">English</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/english_female.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">I guess it comes down a simple choice. Get busy living or get busy dying.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/english_female_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">English</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/english_male.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">The culinary tour introduces visitors to hidden neighborhood restaurants where local chefs prepare authentic regional specialties.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/english_male_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">French</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/french_female.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">Alors Cécile, j'ai entendu dire que vous aviez approché pour faire un film aux États-Unis.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/french_female_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">French</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/french_male.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">On peut donner bien des choses à ceux que l'on aime. Des paroles, un repos, du plaisir.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/french_male_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">German</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/german_female.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">Guten Morgen! Wie geht es Ihnen heute?</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/german_female_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">German</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/german_male.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">Guten Morgen, wie geht es dir heute? Ich hoffe, du hast gut geschlafen und bist voller Energie.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/german_male_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">Japanese</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/japanese_female.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">人に見返りを求めてはいけない。求めなければ、誰かを憎むことも蔑むこともない。それが生きていく上で一番大事なことだ。</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/japanese_female_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">Japanese</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/japanese_male.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">この映画、とても面白かったです。</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/japanese_male_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">Korean</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/korean_female.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">내 나이 아홉살 처음 알게 된 사실이 잇었다. 생일 초를 끄기 전에는 소원을 빌어야 한다는 것.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/korean_female_1.wav"/>Your browser does not support the audio element.</audio></td></tr>
+				<tr><td style="vertical-align: middle; text-align: center">Korean</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/prompt_audio/korean_male.mp3"/>Your browser does not support the audio element.</audio></td><td style="vertical-align: middle; text-align: center">이제부터 함께하는 이 소설은 "꿈의 세계로 여행하기"라는 제목입니다.</td><td style="vertical-align: middle; text-align: center"><audio controls="controls" style="width: 190px;"><source src="audio/generation_audio/korean_male_2.wav"/>Your browser does not support the audio element.</audio></td></tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-6 pb-5 bg-white rounded">
+	<h2 id="Celebrities-Characters" style="text-align: center; margin-bottom: 1.25rem;">Celebrities Characters</h2>
+	<p class="small text-muted text-center mb-3">Each example uses a short prompt audio plus a target text to synthesize the target celebrity voice.</p>
+	<div class="table-responsive pt-4">
+		<table class="table table-hover pt-2">
+			<thead>
+				<tr>
+					<th style="vertical-align: middle; text-align: center">Character</th>
+					<th style="vertical-align: middle; text-align: center">Prompt Audio</th>
+					<th style="vertical-align: middle; text-align: center">Target Text</th>
+					<th style="vertical-align: middle; text-align: center">Generated Audio</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="vertical-align: middle; text-align: center">华妃 (Huafei)</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/prompt_audio/huafei_prompt.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+					<td style="vertical-align: middle; text-align: center">处理家庭秘密从来都不是一件容易的事。然而，有时候，隐瞒是一种保护形式，旨在保护一些人免受残酷的真相伤害。有一天，我希望你能理解我行为背后的原因。在那之前，安娜，请容忍我。</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/celebrity/chinese_chinese_huafei_prompt_117.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: middle; text-align: center">八戒 (Bajie)</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/prompt_audio/bajie_prompt.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+					<td style="vertical-align: middle; text-align: center">有一种撕心裂肺的感觉，是辣椒，我加了辣椒！</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/celebrity/chinese_chinese_bajie_prompt_160.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: middle; text-align: center">Morty</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/prompt_audio/morty.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+					<td style="vertical-align: middle; text-align: center">Then I would never talk to that person about boa constrictors, or primeval forests, or stars. I would bring myself down to his level.</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/celebrity/english_english_morty_257.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: middle; text-align: center">Trump</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/prompt_audio/trump.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+					<td style="vertical-align: middle; text-align: center">Then I would never talk to that person about boa constrictors, or primeval forests, or stars. I would bring myself down to his level.</td>
+					<td style="vertical-align: middle; text-align: center">
+						<audio controls="controls" style="width: 190px;">
+							<source src="audio/celebrity/english_english_trump_230.wav"/>
+							Your browser does not support the audio element.
+						</audio>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+</article>
+</main>
+</div>
+
+</body>
+</html>
